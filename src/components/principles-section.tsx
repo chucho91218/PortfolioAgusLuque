@@ -16,18 +16,18 @@ export function PrinciplesSection() {
     {
       number: "01",
       titleParts: [
-        { text: "DISEÑO", highlight: false },
+        { text: "BASE DE ", highlight: false },
+        { text: " DATOS", highlight: true },
       ],
-      description: "Diseño interfaces claras y modernas, pensando primero en la experiencia del usuario.",
+      description: "Diseño tablas, relaciones y consultas con MySQL para que el sistema sea rápido y confiable.",
       align: "left",
     },
     {
       number: "02",
       titleParts: [
-        { text: "BASE DE ", highlight: false },
-        { text: " DATOS", highlight: true },
+        { text: "DISEÑO", highlight: false },
       ],
-      description: "Diseño tablas, relaciones y consultas con MySQL para que el sistema sea rápido y confiable.",
+      description: "Diseño interfaces claras y modernas, pensando primero en la experiencia del usuario.",
       align: "right",
     },
     {
