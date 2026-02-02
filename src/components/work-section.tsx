@@ -13,26 +13,36 @@ const experiments = [
     title: "Cardetailing",
     medium: "PROXIMAMENTE",
     description: "En proceso...",
+    bg: "/cardetailing.png",
+    href: "", // 👈 no clickeable
   },
   {
     title: "Finance Game",
     medium: "React, TypeScript, Tailwind CSS, Vite+Laravel, Livewire, MySQL",
     description:
-      "Participé en el Frontend de una plataforma web gamificada para aprender y gestionar finanzas personales, con pantallas interactivas, métricas y “misiones” para reforzar conceptos.",
+      "Participé en una plataforma web gamificada para aprender y finanzas personales, con pantallas interactivas y “misiones” para reforzar conceptos.",
+    bg: "/finance.png",
+    href: "https://github.com/tomydp/finance-game.git",
   },
   {
     title: "Vangogh Deco",
     medium: "Next.js, React, TypeScript, Tailwind CSS, Vercel",
     description:
-      "Sitio web institucional para presentar la marca/negocio, mostrar productos o servicios y facilitar el contacto, con diseño responsive y enfoque visual.",
+      "Sitio web para presentar la marca, mostrar productos o servicios y facilitar el contacto, con diseño responsive y enfoque visual.",
+    bg: "/vangogh.png",
+    href: "https://vangogh-deco.vercel.app/",
   },
   {
     title: "La cuenta clara",
     medium: "React, TypeScript, Tailwind CSS, Node.js, Vercel",
     description:
       "App web para dividir gastos en grupo y calcular quién le debe a quién, evitando confusiones y haciendo el reparto de manera rápida y clara.",
+    bg: "/cuenta.png",
+    href: "https://lacuentaclara.vercel.app/",
   },
-]
+] as const
+
+type Experiment = (typeof experiments)[number]
 
 export function WorkSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -59,7 +69,7 @@ export function WorkSection() {
         },
       )
 
-      const cards = gridRef.current?.querySelectorAll("article")
+      const cards = gridRef.current?.querySelectorAll("[data-work-card]")
       if (cards && cards.length > 0) {
         gsap.set(cards, { y: 60, opacity: 0 })
         gsap.to(cards, {
@@ -84,9 +94,9 @@ export function WorkSection() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12"
+      className="relative py-24 md:py-28 pl-6 md:pl-28 pr-6 md:pr-12"
+
     >
-      {/* Section header */}
       <div ref={headerRef} className="mb-16 flex items-end justify-between">
         <div>
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
@@ -98,14 +108,13 @@ export function WorkSection() {
         </div>
       </div>
 
-      {/* Uniform grid: todas iguales */}
       <div
         ref={gridRef}
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
       >
         {experiments.map((experiment, index) => (
           <WorkCard
-            key={index}
+            key={experiment.title}
             experiment={experiment}
             index={index}
             persistHover={index === 0}
@@ -121,16 +130,12 @@ function WorkCard({
   index,
   persistHover = false,
 }: {
-  experiment: {
-    title: string
-    medium: string
-    description: string
-  }
+  experiment: Experiment
   index: number
   persistHover?: boolean
 }) {
   const [isHovered, setIsHovered] = useState(false)
-  const cardRef = useRef<HTMLElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
   const [isScrollActive, setIsScrollActive] = useState(false)
 
   useEffect(() => {
@@ -148,24 +153,37 @@ function WorkCard({
   }, [persistHover])
 
   const isActive = isHovered || isScrollActive
+  const isClickable = Boolean(experiment.href)
+
+  const Wrapper: any = isClickable ? "a" : "article"
+  const wrapperProps = isClickable
+    ? {
+        href: experiment.href,
+        target: "_blank",
+        rel: "noreferrer",
+        "aria-label": `Abrir ${experiment.title}`,
+      }
+    : {}
 
   return (
-    <article
+    <Wrapper
+      {...wrapperProps}
       ref={cardRef}
+      data-work-card
       className={cn(
-        "group relative overflow-hidden cursor-pointer",
-        "h-[220px] md:h-[240px]", // ✅ mismo tamaño
+        "group relative overflow-hidden block",
+        "h-[220px] md:h-[240px]",
         "border border-border/40 bg-black/20",
         "p-6 flex flex-col justify-between",
         "transition-all duration-500",
+        isClickable ? "cursor-pointer" : "cursor-default",
         isActive && "border-accent/60",
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background image */}
       <Image
-        src="/mee.jpg"
+        src={experiment.bg}
         alt={`${experiment.title} background`}
         fill
         className={cn(
@@ -175,10 +193,8 @@ function WorkCard({
         priority={false}
       />
 
-      {/* Overlay para legibilidad */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/25" />
 
-      {/* Accent hover layer (tu efecto original) */}
       <div
         className={cn(
           "absolute inset-0 bg-accent/5 transition-opacity duration-500",
@@ -186,7 +202,6 @@ function WorkCard({
         )}
       />
 
-      {/* Content */}
       <div className="relative z-10">
         <span className="font-mono text-sm uppercase tracking-widest text-muted-foreground/90">
           {experiment.medium}
@@ -195,7 +210,7 @@ function WorkCard({
         <h3
           className={cn(
             "mt-3 font-[var(--font-bebas)] tracking-tight transition-colors duration-300",
-            "text-3xl md:text-4xl", // ✅ más grande
+            "text-3xl md:text-4xl",
             isActive ? "text-accent" : "text-foreground",
           )}
         >
@@ -203,7 +218,6 @@ function WorkCard({
         </h3>
       </div>
 
-      {/* Description - revela en hover */}
       <div className="relative z-10">
         <p
           className={cn(
@@ -215,7 +229,6 @@ function WorkCard({
         </p>
       </div>
 
-      {/* Index marker */}
       <span
         className={cn(
           "absolute bottom-4 right-4 font-mono text-xs transition-colors duration-300 z-10",
@@ -225,7 +238,6 @@ function WorkCard({
         {String(index + 1).padStart(2, "0")}
       </span>
 
-      {/* Corner line */}
       <div
         className={cn(
           "absolute top-0 right-0 w-12 h-12 transition-all duration-500 z-10",
@@ -235,6 +247,6 @@ function WorkCard({
         <div className="absolute top-0 right-0 w-full h-[1px] bg-accent" />
         <div className="absolute top-0 right-0 w-[1px] h-full bg-accent" />
       </div>
-    </article>
+    </Wrapper>
   )
 }

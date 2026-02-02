@@ -34,6 +34,11 @@ export function HeroSection() {
     return () => ctx.revert()
   }, [])
 
+  const scrollToWork = () => {
+    const el = document.querySelector("#work")
+    el?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -52,30 +57,44 @@ export function HeroSection() {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-start mt-1 gap-6">
           {/* BLOQUE IZQUIERDO */}
           <div className="flex-1 pt-2">
-            <h2 className="font-[var(--font-bebas)] text-muted-foreground/60 text-[clamp(1.2rem,3.4vw,2.2rem)] tracking-wide">
+      <h2 className="font-[var(--font-bebas)] text-foreground/70 text-[clamp(1.2rem,3.4vw,2.2rem)] tracking-wide">
               Bienvenido a mi portfolio.
             </h2>
 
-            <p className="mt-4 max-w-md font-mono text-base md:text-lg text-muted-foreground leading-relaxed">
+         <p className="mt-4 max-w-md font-mono text-base md:text-lg text-foreground/60 leading-relaxed">
               “Si podés imaginarlo y podés programarlo, ya existe.”
             </p>
 
-            {/* Botones */}
-            <div className="mt-10 flex flex-wrap items-center gap-8">
+            {/* CTAs */}
+            <div className="mt-10 flex flex-wrap items-center gap-4 md:gap-6">
+              {/* CTA 1: CV */}
               <a
                 href="/cv.pdf"
                 download
-                className="group inline-flex items-center gap-3 border border-foreground/20 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
+                className="group inline-flex items-center gap-3 border border-foreground/25 bg-black/10 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
               >
                 <ScrambleTextOnHover text="Descargar CV" as="span" duration={0.6} />
                 <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
               </a>
 
+              {/* CTA 2: Proyectos */}
+              <button
+                type="button"
+                onClick={scrollToWork}
+                className="group inline-flex items-center gap-3 border border-border/50 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
+              >
+                <ScrambleTextOnHover text="Ver proyectos" as="span" duration={0.6} />
+                <span className="text-base transition-transform duration-[400ms] ease-in-out group-hover:translate-x-1">
+                  →
+                </span>
+              </button>
+
+              {/* Links */}
               <a
                 href="https://www.linkedin.com/in/agustinluquedev/"
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+                className="font-mono text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground transition-colors"
               >
                 LinkedIn
               </a>
@@ -84,7 +103,8 @@ export function HeroSection() {
                 href="https://github.com/chucho91218"
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+                className="font-mono text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground transition-colors"
+
               >
                 GitHub
               </a>
@@ -93,14 +113,7 @@ export function HeroSection() {
 
           {/* FOTO */}
           <div className="relative w-[240px] h-[300px] md:w-[380px] md:h-[277px] border border-border/40 bg-black/20 overflow-hidden self-center lg:self-start lg:mt-4 shadow-2xl">
-            <Image
-              src="/mee.jpg"
-              alt="Foto de Agustín"
-              fill
-              className="object-cover"
-              priority
-            />
-
+            <Image src="/mee.jpg" alt="Foto de Agustín" fill className="object-cover" priority />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div
               className="pointer-events-none absolute inset-0 opacity-20"

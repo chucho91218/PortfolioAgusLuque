@@ -16,7 +16,6 @@ export function ColophonSection() {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      // Header slide in
       if (headerRef.current) {
         gsap.from(headerRef.current, {
           x: -60,
@@ -31,7 +30,6 @@ export function ColophonSection() {
         })
       }
 
-      // Grid columns fade up with stagger
       if (gridRef.current) {
         const columns = gridRef.current.querySelectorAll(":scope > div")
         gsap.from(columns, {
@@ -48,7 +46,6 @@ export function ColophonSection() {
         })
       }
 
-      // Footer fade in
       if (footerRef.current) {
         gsap.from(footerRef.current, {
           y: 20,
@@ -67,5 +64,63 @@ export function ColophonSection() {
     return () => ctx.revert()
   }, [])
 
+  return (
+    <section
+      ref={sectionRef}
+      id="colophon"
+      className="relative py-28 pl-6 md:pl-28 pr-6 md:pr-12"
+    >
+      <div className="mx-auto w-full max-w-6xl">
+        {/* Header */}
+        <div ref={headerRef} className="mb-12">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
+            05 / COLOPHON
+          </span>
+          <h2 className="mt-4 font-[var(--font-bebas)] text-6xl md:text-7xl tracking-tight">
+            DETALLES
+          </h2>
+          <p className="mt-4 max-w-2xl font-mono text-base md:text-lg text-muted-foreground leading-relaxed">
+            Un resumen de stack, herramientas y cómo está hecho este portfolio.
+          </p>
+        </div>
 
+        {/* Grid */}
+        <div ref={gridRef} className="grid gap-6 md:grid-cols-3">
+          <div className="border border-border/40 bg-card/40 p-6">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Frontend
+            </p>
+            <p className="mt-3 font-mono text-sm text-foreground">
+              Next.js, TypeScript, Tailwind
+            </p>
+          </div>
+
+          <div className="border border-border/40 bg-card/40 p-6">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Animaciones
+            </p>
+            <p className="mt-3 font-mono text-sm text-foreground">
+              GSAP + ScrollTrigger
+            </p>
+          </div>
+
+          <div className="border border-border/40 bg-card/40 p-6">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+              Deploy
+            </p>
+            <p className="mt-3 font-mono text-sm text-foreground">
+              Vercel
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div ref={footerRef} className="mt-10 border-t border-border/40 pt-6">
+          <p className="font-mono text-xs text-muted-foreground">
+            © {new Date().getFullYear()} — Agustín Luque
+          </p>
+        </div>
+      </div>
+    </section>
+  )
 }
