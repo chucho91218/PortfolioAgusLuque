@@ -43,36 +43,41 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[92vh] md:min-h-screen flex items-center py-10 md:py-12 pl-6 md:pl-28 pr-6 md:pr-12"
+      className="relative min-h-[92vh] md:min-h-screen flex items-center py-10 md:py-12 px-6 md:pl-24 md:pr-12 overflow-hidden"
     >
       <AnimatedNoise opacity={0.03} />
 
       <div ref={contentRef} className="w-full flex flex-col">
-        {/* TITULO */}
-        <div className="relative z-10">
-          <SplitFlapText text="DEVELOPER" speed={80} />
+        
+        {/* TITULO CORREGIDO */}
+        {/* Usamos scale y origin-left para asegurarnos de que si la palabra es muy larga, 
+            se achique proporcionalmente en pantallas muy pequeñas (< 380px) */}
+        <div className="relative z-10 w-full mb-4">
+          <div className="scale-[0.8] sm:scale-100 origin-left transition-transform">
+             <SplitFlapText text="DEVELOPER" speed={80} />
+          </div>
         </div>
 
         {/* CONTENEDOR DE CONTENIDO (Texto y Foto) */}
-        <div className="flex flex-col lg:flex-row justify-between items-start mt-2 md:mt-1 gap-6 md:gap-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 md:gap-8">
+          
           {/* BLOQUE IZQUIERDO */}
           <div className="flex-1 pt-1 md:pt-2">
-            <h2 className="font-[var(--font-bebas)] text-foreground/70 text-[clamp(1.15rem,3.4vw,2.2rem)] tracking-wide">
+            <h2 className="font-[var(--font-bebas)] text-foreground/70 text-[clamp(1.1rem,4vw,2.2rem)] tracking-wide leading-tight">
               Bienvenido a mi portfolio.
             </h2>
 
-            <p className="mt-3 md:mt-4 max-w-md font-mono text-[15px] md:text-lg text-foreground/60 leading-relaxed">
+            <p className="mt-3 md:mt-4 max-w-md font-mono text-[14px] md:text-lg text-foreground/60 leading-relaxed">
               “Si podés imaginarlo y podés programarlo, ya existe.”
             </p>
 
-            {/* CTAs + Links (mobile friendly) */}
+            {/* CTAs + Links */}
             <div className="mt-7 md:mt-10 flex flex-col gap-6">
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 md:gap-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <a
                   href="/cv.pdf"
                   download
-                  className="group inline-flex w-fit items-center gap-3 border border-foreground/25 bg-black/10 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
+                  className="group inline-flex w-full sm:w-auto justify-center items-center gap-3 border border-foreground/25 bg-black/10 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
                 >
                   <ScrambleTextOnHover text="Descargar CV" as="span" duration={0.6} />
                   <BitmapChevron className="transition-transform duration-[400ms] ease-in-out group-hover:rotate-45" />
@@ -81,7 +86,7 @@ export function HeroSection() {
                 <button
                   type="button"
                   onClick={scrollToWork}
-                  className="group inline-flex w-fit items-center gap-3 border border-border/50 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
+                  className="group inline-flex w-full sm:w-auto justify-center items-center gap-3 border border-border/50 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
                 >
                   <ScrambleTextOnHover text="Ver proyectos" as="span" duration={0.6} />
                   <span className="text-base transition-transform duration-[400ms] ease-in-out group-hover:translate-x-1">
@@ -90,31 +95,15 @@ export function HeroSection() {
                 </button>
               </div>
 
-              {/* Links */}
-              <div className="flex flex-wrap items-center gap-8">
-                <a
-                  href="https://www.linkedin.com/in/agustinluquedev/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground transition-colors"
-                >
-                  LinkedIn
-                </a>
-
-                <a
-                  href="https://github.com/chucho91218"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-mono text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground transition-colors"
-                >
-                  GitHub
-                </a>
+              <div className="flex flex-wrap items-center gap-6 md:gap-8">
+                <a href="https://www.linkedin.com/..." className="font-mono text-xs md:text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground">LinkedIn</a>
+                <a href="https://github.com/..." className="font-mono text-xs md:text-sm uppercase tracking-widest text-foreground/55 hover:text-foreground">GitHub</a>
               </div>
             </div>
           </div>
 
-          {/* FOTO */}
-          <div className="relative w-[220px] h-[250px] md:w-[380px] md:h-[277px] border border-border/40 bg-black/20 overflow-hidden self-start lg:self-start lg:mt-4 shadow-2xl mt-3">
+          {/* FOTO RESPONSIVA */}
+          <div className="relative w-full max-w-[300px] aspect-[4/3] md:w-[380px] md:h-[277px] border border-border/40 bg-black/20 overflow-hidden self-center lg:self-start shadow-2xl mt-4 lg:mt-0">
             <Image
               src="/mee.jpg"
               alt="Foto de Agustín"
@@ -122,15 +111,7 @@ export function HeroSection() {
               className="object-cover"
               priority
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div
-              className="pointer-events-none absolute inset-0 opacity-20"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 6px)",
-                mixBlendMode: "overlay",
-              }}
-            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent" />
           </div>
         </div>
       </div>
