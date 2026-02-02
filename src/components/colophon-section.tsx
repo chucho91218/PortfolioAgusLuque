@@ -64,4 +64,42 @@ export function ColophonSection() {
     return () => ctx.revert()
   }, [])
 
+  return (
+    <section
+      ref={sectionRef}
+      id="colophon"
+      className="relative py-20 pl-6 md:pl-28 pr-6 md:pr-12"
+    >
+      {/* Header */}
+      <div ref={headerRef} className="mb-12">
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
+          05 / CIERRE
+        </span>
+        <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-6xl tracking-tight">
+          GRACIAS POR VER
+        </h2>
+        <p className="mt-4 max-w-2xl font-mono text-base md:text-lg text-muted-foreground leading-relaxed">
+          “Tu mejor versión sale en la segunda iteración.”
+        </p>
+      </div>
+
+      
+      {/* Footer */}
+      <div
+        ref={footerRef}
+        className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border/40 pt-6 sm:flex-row"
+      >
+        <p className="font-mono text-xs text-muted-foreground">
+          © {new Date().getFullYear()} — Agustín Luque
+        </p>
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="font-mono text-xs uppercase tracking-widest text-accent hover:underline"
+        >
+          Volver arriba
+        </button>
+      </div>
+    </section>
+  )
 }
