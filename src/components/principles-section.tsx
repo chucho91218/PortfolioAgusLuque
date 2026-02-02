@@ -14,7 +14,7 @@ export function PrinciplesSection() {
 
   const principles = [
     {
-      number: "01",
+      number: "",
       titleParts: [
         { text: "BASE DE ", highlight: false },
         { text: " DATOS", highlight: true },
@@ -23,7 +23,7 @@ export function PrinciplesSection() {
       align: "left",
     },
     {
-      number: "02",
+      number: "",
       titleParts: [
         { text: "DISEÑO", highlight: false },
       ],
@@ -31,7 +31,7 @@ export function PrinciplesSection() {
       align: "right",
     },
     {
-      number: "03",
+      number: "",
       titleParts: [
         { text: "METODOLOGÍAS ", highlight: false },
         { text: "AGILES", highlight: true },
@@ -40,7 +40,7 @@ export function PrinciplesSection() {
       align: "left",
     },
     {
-      number: "04",
+      number: "",
       titleParts: [
         
         { text: "PREDISPOSICION", highlight: false },
@@ -92,7 +92,7 @@ export function PrinciplesSection() {
     <section ref={sectionRef} id="principles" className="relative py-32 pl-6 md:pl-28 pr-6 md:pr-12">
       {/* Section header */}
       <div ref={headerRef} className="mb-24">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 / Principles</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">03 /</span>
         <h2 className="mt-4 font-[var(--font-bebas)] text-5xl md:text-7xl tracking-tight">MI SERVICIO</h2>
       </div>
 

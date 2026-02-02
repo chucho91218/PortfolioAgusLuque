@@ -29,7 +29,7 @@ export function ContactSection({
         {/* Header */}
         <div className="mb-12">
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
-            04 / CONTACTO
+            04 / 
           </span>
           <h2 className="mt-4 font-[var(--font-bebas)] text-6xl md:text-7xl tracking-tight">
             ¿HABLAMOS?
@@ -85,19 +85,6 @@ export function ContactSection({
             </div>
 
             <div className="mt-10 h-px w-full bg-border/40" />
-
-            <div className="mt-6 flex items-center justify-between">
-              <p className="font-mono text-xs text-muted-foreground">
-                © {new Date().getFullYear()} — Agustín Luque
-              </p>
-              <button
-                type="button"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="font-mono text-xs uppercase tracking-widest text-accent hover:underline"
-              >
-                Volver arriba
-              </button>
-            </div>
           </div>
 
           {/* Form */}

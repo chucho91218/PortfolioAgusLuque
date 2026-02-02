@@ -18,8 +18,8 @@ export default function Page() {
         <SignalsSection />
         <WorkSection />
         <PrinciplesSection />
-        <ColophonSection />
         <ContactSection />
+         <ColophonSection />
 
       </div>
     </main>
