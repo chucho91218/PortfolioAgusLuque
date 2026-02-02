@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Network, Smartphone, GraduationCap } from "lucide-react"
+import { Network, GraduationCap, Mouse, ArrowRight } from "lucide-react"
 import {
   SiReact,
   SiJavascript,
@@ -19,7 +19,8 @@ import {
   SiMysql,
   SiGit,
   SiDocker,
-  SiUbuntu, SiVercel
+  SiUbuntu,
+  SiVercel,
 } from "react-icons/si"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -38,7 +39,7 @@ const signals: SignalItem[] = [
     type: "about",
     title: "Perfil",
     note:
-      "Soy Agustín Luque, desarrollador Full Stack. Me apasiona crear productos que no solo funcionen bien, sino que también se sientan claros, modernos y fáciles de usar.Diseño interfaces responsive con buen criterio de UX, y construyo la lógica del lado servidor. Hoy busco sumarme a equipos donde pueda aportar compromiso y una mirada práctica, mientras sigo aprendiendo y enfrentando nuevos desafíos. Me enfoco en entregar soluciones claras, sólidas y mantenibles.",
+      "Soy Agustín Luque, desarrollador Full Stack. Me apasiona crear productos que no solo funcionen bien, sino que también se sientan claros, modernos y fáciles de usar. Diseño interfaces responsive con buen criterio de UX, y construyo la lógica del lado servidor. Hoy busco sumarme a equipos donde pueda aportar compromiso y una mirada práctica, mientras sigo aprendiendo y enfrentando nuevos desafíos. Me enfoco en entregar soluciones claras, sólidas y mantenibles.",
   },
   {
     type: "frontend",
@@ -51,7 +52,6 @@ const signals: SignalItem[] = [
       { label: "HTML", Icon: SiHtml5 },
       { label: "CSS3", Icon: SiCss3 },
       { label: "Tailwind CSS", Icon: SiTailwindcss },
-    
     ],
   },
   {
@@ -67,22 +67,20 @@ const signals: SignalItem[] = [
       { label: "MySQL", Icon: SiMysql },
     ],
   },
- {
-  type: "tools",
-  title: "Herramientas",
-  items: [
-    { label: "Git", Icon: SiGit },
-    { label: "Docker", Icon: SiDocker },
-    { label: "Ubuntu", Icon: SiUbuntu },
-    { label: "Vercel", Icon: SiVercel },
-  ],
-},
-
+  {
+    type: "tools",
+    title: "Herramientas",
+    items: [
+      { label: "Git", Icon: SiGit },
+      { label: "Docker", Icon: SiDocker },
+      { label: "Ubuntu", Icon: SiUbuntu },
+      { label: "Vercel", Icon: SiVercel },
+    ],
+  },
   {
     type: "career",
     title: "Carrera",
-    note:
-      "Desarrollador de Software 2023-2025. Instituto Superior — Villa del Rosario.",
+    note: "Desarrollador de Software 2023-2025. Instituto Superior — Villa del Rosario.",
     items: [{ label: "Estudios", Icon: GraduationCap }],
   },
 ]
@@ -93,8 +91,11 @@ export function SignalsSection() {
   const headerRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
-  const [isHovering, setIsHovering] = useState(false)
 
+  const [isHovering, setIsHovering] = useState(false)
+  const [showHint, setShowHint] = useState(true)
+
+  // Cursor naranja
   useEffect(() => {
     if (!sectionRef.current || !cursorRef.current) return
 
@@ -128,6 +129,20 @@ export function SignalsSection() {
     }
   }, [])
 
+  // Hint desaparece al scrollear
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    const onScroll = () => {
+      if (el.scrollLeft > 10) setShowHint(false)
+    }
+
+    el.addEventListener("scroll", onScroll, { passive: true })
+    return () => el.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Animaciones
   useEffect(() => {
     if (!sectionRef.current || !headerRef.current || !cardsRef.current) return
 
@@ -188,25 +203,51 @@ export function SignalsSection() {
       {/* Header */}
       <div ref={headerRef} className="mb-16 pr-6 md:pr-12">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
-          01 / 
+          01 /
         </span>
         <h2 className="mt-4 font-[var(--font-bebas)] text-6xl md:text-7xl tracking-tight">
           SOBRE MI
         </h2>
       </div>
 
-      {/* Cards (horizontal scroll) */}
-      <div
-        ref={(el) => {
-          scrollRef.current = el
-          cardsRef.current = el
-        }}
-        className="flex gap-8 overflow-x-auto pb-8 pr-12 scrollbar-hide"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {signals.map((signal, index) => (
-          <SignalCard key={index} signal={signal} index={index} />
-        ))}
+      {/* Cards wrapper con fades + hint */}
+      <div className="relative pr-6 md:pr-12">
+        {/* Fade izquierdo */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-background to-transparent z-20" />
+        {/* Fade derecho */}
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-background to-transparent z-20" />
+
+        {/* Hint (ruedita) */}
+        <div
+          className={cn(
+            "pointer-events-none absolute bottom-3 right-6 z-30",
+            "flex items-center gap-2 border border-border/40 bg-black/30 px-3 py-2",
+            "font-mono text-xs uppercase tracking-widest text-muted-foreground",
+            "transition-opacity duration-300",
+            showHint ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <Mouse className="h-4 w-4 text-accent" />
+          <span>Deslizá</span>
+          <ArrowRight className="h-4 w-4" />
+        </div>
+
+        {/* Cards (horizontal scroll + snap) */}
+        <div
+          ref={(el) => {
+            scrollRef.current = el
+            cardsRef.current = el
+          }}
+          className={cn(
+            "flex gap-6 overflow-x-auto pb-8 scrollbar-hide",
+            "snap-x snap-mandatory scroll-smooth",
+          )}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {signals.map((signal, index) => (
+            <SignalCard key={index} signal={signal} index={index} />
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -216,7 +257,7 @@ function SignalCard({ signal, index }: { signal: SignalItem; index: number }) {
   return (
     <article
       className={cn(
-        "group relative flex-shrink-0 w-80",
+        "group relative flex-shrink-0 w-[85vw] sm:w-80 snap-start",
         "transition-transform duration-500 ease-out",
         "hover:-translate-y-2",
       )}
@@ -229,7 +270,6 @@ function SignalCard({ signal, index }: { signal: SignalItem; index: number }) {
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
             No. {String(index + 1).padStart(2, "0")}
           </span>
-          {/* date eliminado */}
         </div>
 
         {/* Title */}
@@ -260,7 +300,7 @@ function SignalCard({ signal, index }: { signal: SignalItem; index: number }) {
         ) : null}
 
         {signal.note ? (
-          <p className="mt-5 font-mono text-base text-muted-foreground leading-relaxed">
+          <p className="mt-5 font-mono text-[14px] md:text-base text-muted-foreground leading-relaxed">
             {signal.note}
           </p>
         ) : null}
