@@ -75,7 +75,7 @@ export function HeroSection() {
             <div className="mt-7 md:mt-10 flex flex-col gap-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <a
-                  href="/cv.pdf"
+                  href="/AgustinLuqueCV.pdf"
                   download
                   className="group inline-flex w-full sm:w-auto justify-center items-center gap-3 border border-foreground/25 bg-black/10 px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-foreground hover:border-accent hover:text-accent transition-all duration-200"
                 >
